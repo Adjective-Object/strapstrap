@@ -1,0 +1,68 @@
+::: document Page Header
+: icon ./favicon.png
+: color d1 #222222 
+: color d2 #555555
+: color b1 #AAAAAA 
+: color b2 #FFFFFF
+: color hilight #FFBBAA
+
+:: Head
+: fullfold
+: xycentered
+: background ./img.jpg
+
+	#Project Name
+	##Project subtitle: for the modern age
+
+	This is a paragraph about the project 
+	man it's so cool I bet you wish your project 
+	was this cool
+
+:: About
+: columns 4
+
+	:: column1
+		: .custom
+			style me here
+
+		: .custom
+			style me pls
+
+		: .custom
+			style me too
+
+	:: column2-3
+	: column-width 2
+
+		:: 
+		: image ./middleimage.jpg
+		: shape circle
+
+		this content goes in the middle column
+
+	:: column4
+
+		:: 
+		: image ./rightimage.jpg
+		: shape circle
+
+		this content goes in the right column
+
+:: Anotherdiv
+
+	shit son we're so cool man so cool so cool man we're so cool
+
+	BUY THESE HEADPHONES: JVC HA-M750
+	Koss Portapro <- runnng?
+
+:: Footer
+: footer
+: xycentered
+
+	Made with [MarketDown](http://marketdown.com)
+
+::: css custom-css
+
+.custom {
+	some shit
+}
