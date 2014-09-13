@@ -1,4 +1,4 @@
-#Marketdown Syntax Rules
+#MktDown Syntax Rules
 
 ##Metadata Blocks
 
@@ -30,7 +30,7 @@ a file named <file-name>.css to the produced HTML document.
 
 Document blocks take a series of nested sections (see below),
 and construct a HTML DOM from them. The title window/tab is set
-by the <header name> argument, which may contain spaces.
+by the `<header name>` argument, which may contain spaces.
 
 If multiple document metablocks are declared in the same file,
 an error will be thrown during compilation.
@@ -87,7 +87,7 @@ below is a list of all contexts in ascending order.
 
 ###Text-Block
 text-block is the default text content. it represents
-a block of default right-aligned text in an evenly 
+a block of default left-aligned text in an evenly 
 padded container
 
 

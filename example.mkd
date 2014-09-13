@@ -22,13 +22,13 @@
 : columns 4
 
 	:: column1
-		: .custom
+		:: .custom
 			style me here
 
-		: .custom
+		:: .custom
 			style me pls
 
-		: .custom
+		:: .custom
 			style me too
 
 	:: column2-3
