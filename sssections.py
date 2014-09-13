@@ -1,9 +1,48 @@
 import sys
+import markdown
 
 class SSSection(object):
 	def renderToHTML():
 		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
+	
+class TextSection(SSSection):
+	def renderToHTML():
+		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
 
+class XYCenteredSection(SSSection):
+	def renderToHTML():
+		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
+
+class ColumnSection(SSSection):
+	def renderToHTML():
+		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
+
+class ImageSection(SSSection):
+	def renderToHTML():
+		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
+
+class TableSection(SSSection):
+	def renderToHTML():
+		return "not implemented lol"
+	
+	def validate():
+		return "not implemented lol"
+	
 class MarkdownSection(SSSection):
 
 	markdown = "<FUCK>"
@@ -24,8 +63,6 @@ class Section(SSSection):
 		self.name = name
 		self.header = header
 		self.body = body
-
-		self.context = getContext(header)
 
 	def __str__(self):
 		return (self.name if self.name != "" else "<anonymous>")
