@@ -1,3 +1,4 @@
+
 ::: document Page Header
 : icon ./favicon.png
 : color d1 #222222 
@@ -55,14 +56,35 @@
 	BUY THESE HEADPHONES: JVC HA-M750
 	Koss Portapro <- runnng?
 
+	:: table
+
+		| a    | b  | c |
+		| easy | as |   |
+		| 1    | 2  | 3 |
+
 :: Footer
 : footer
 : xycentered
 
 	Made with [MarketDown](http://marketdown.com)
 
-::: css custom-css
+::: sass custom-css
 
 .custom {
 	some shit
 }
+
+::: css custom-css
+: embed
+
+.custom {
+	some shit
+}
+
+::: include
+: embed
+something.js
+something.sass
+
+:::include 
+something2.js

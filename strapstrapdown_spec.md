@@ -20,8 +20,7 @@ document.
 	...
 ```
 
-CSS blocks take all the data within them, and create+link
-a file named <file-name>.css to the produced HTML document.
+CSS blocks t2 <file-name>.css to the produced HTML document.
 
 ###Document blocks
 ```
