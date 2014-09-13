@@ -70,6 +70,15 @@ class SSDoc(object):
 	def __init__(doc, name):
 		doc.filename = name
 
+	def hasAttr(doc, name):
+		return any([name == i[0] for i in doc.headers])
+
+	def getAttr(doc, name):
+		return doc.getAttrs(name)[0]
+
+	def getAttrs(doc, name):
+		return [i[1] for i in doc.headers if (i[0] == name)]
+
 
 class CssBlock(object):
 
@@ -96,11 +105,13 @@ def parseBlockHeader(f):
 	if peekline(f)!= None and peekline(f)[0:2] == ": ":
 		print "\theader line", curline(f)
 
-
 	while peekline(f)!= None and peekline(f)[0:2] == ": ":
 		line = readline(f)
+		line = popfirstword(line)[1]
 		name, content = popfirstword(line)
 		attrs.append( [name , content.split(" ")] )
+
+	print
 
 	return attrs
 
@@ -193,42 +204,6 @@ def parseCssBlock(name, f, sass=False):
 		return SassBlock(name, "".join(lines)), f
 
 
-supportedExt = {
-	"javascript": {
-		"ext":["js"],
-		"position": "bottom", #bottom. top. head, tail
-		"superembedder":(lambda fname: 
-			"<style type=\"text/css\">\n%s\n</style>"%
-			(build.readFile(fname))
-			),
-		"embedder": (lambda filename: 
-			"<script type=\"text/javascript\" src=\"%s\"></script>"%
-			(filename))
-
-		},
-	"css": {
-		"ext":["css"],
-		"position": "head",
-		"superembedder":(lambda fname: 
-			"<style type=\"text/css\">\n%s\n</style>"%
-			(build.compileSass(readFile(fname)))
-			),
-		"embedder": (lambda filename: 
-			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
-			(filename))
-		},
-	"sass": {
-		"ext":["scss", "sass"],
-		"position": "head",
-		"superembedder":(lambda fname: 
-			"<style type=\"text/css\">\n%s\n</style>"%
-			(build.readFile(fname))
-			),
-		"embedder": (lambda filename: 
-			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
-			( build.compileSassFile(filename)) )
-		},
-}
 def parseIncludeBlock(f):
 	header = parseBlockHeader(f)
 	
@@ -249,7 +224,7 @@ def parseIncludeBlock(f):
 
 			if (len(name.split(" ")) == 2):
 				#filename <formatname>
-				if name[1] not in supportedExt:
+				if name[1] not in build.supportedExt:
 					raise SSFormatException(
 						("Error in include block, (line %s)\n"
 						+ "file %s of unsupported type.") %(curline(f), ext))
@@ -264,8 +239,8 @@ def parseIncludeBlock(f):
 				ext = ext[1]
 
 				matches = [
-					sup for sup in supportedExt
-					 if (ext in supportedExt[sup]["ext"])
+					sup for sup in build.supportedExt
+					 if (ext in build.supportedExt[sup]["ext"])
 				]
 				if len(matches) == 0:
 					raise SSFormatException(
@@ -275,9 +250,9 @@ def parseIncludeBlock(f):
 				files.append({
 					"embed":embed, 
 					"filename":filename,
-					"pos":supportedExt[matches[0]] ["position"],
-					"execinto":supportedExt[matches[0]] ["superembedder"],
-					"exec":supportedExt[matches[0]] ["embedder"]})
+					"pos":build.supportedExt[matches[0]] ["position"],
+					"execinto":build.supportedExt[matches[0]] ["superembedder"],
+					"exec":build.supportedExt[matches[0]] ["embedder"]})
 			else:
 				raise badformat
 

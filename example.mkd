@@ -6,11 +6,13 @@
 : color b1 #AAAAAA 
 : color b2 #FFFFFF
 : color hilight #FFBBAA
+: embed
 
 :: Head
 : fullfold
 : xycentered
 : background ./img.jpg
+: bgfill hilight 0.2
 
 	#Project Name
 	##Project subtitle: for the modern age

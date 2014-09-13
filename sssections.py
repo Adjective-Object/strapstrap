@@ -43,6 +43,7 @@ class Section(SSSection):
 			return generators["text-block"](parent, childno)
 
 
+
 assigners = {
 	"xycentered":"xycentered",
 	"columns": "columns",
