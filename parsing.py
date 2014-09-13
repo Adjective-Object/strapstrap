@@ -197,6 +197,10 @@ supportedExt = {
 	"javascript": {
 		"ext":["js"],
 		"position": "bottom", #bottom. top. head, tail
+		"superembedder":(lambda fname: 
+			"<style type=\"text/css\">\n%s\n</style>"%
+			(build.readFile(fname))
+			),
 		"embedder": (lambda filename: 
 			"<script type=\"text/javascript\" src=\"%s\"></script>"%
 			(filename))
@@ -205,6 +209,10 @@ supportedExt = {
 	"css": {
 		"ext":["css"],
 		"position": "head",
+		"superembedder":(lambda fname: 
+			"<style type=\"text/css\">\n%s\n</style>"%
+			(build.compileSass(readFile(fname)))
+			),
 		"embedder": (lambda filename: 
 			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
 			(filename))
@@ -212,6 +220,10 @@ supportedExt = {
 	"sass": {
 		"ext":["scss", "sass"],
 		"position": "head",
+		"superembedder":(lambda fname: 
+			"<style type=\"text/css\">\n%s\n</style>"%
+			(build.readFile(fname))
+			),
 		"embedder": (lambda filename: 
 			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
 			( build.compileSassFile(filename)) )
@@ -264,6 +276,7 @@ def parseIncludeBlock(f):
 					"embed":embed, 
 					"filename":filename,
 					"pos":supportedExt[matches[0]] ["position"],
+					"execinto":supportedExt[matches[0]] ["superembedder"],
 					"exec":supportedExt[matches[0]] ["embedder"]})
 			else:
 				raise badformat

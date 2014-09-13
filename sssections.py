@@ -76,19 +76,19 @@ validators = {
 }
 
 
-def makeTextBlock(parent, childno):
+def makeTextBlock(node, parent, childno):
 	pass
 
-def makeXYCentered(parent, childno):
+def makeXYCentered(node, parent, childno):
 	pass
 
-def makeColumnedLayout(parent, childno):
+def makeColumnedLayout(node, parent, childno):
 	pass
 
-def makeImage(parent, childno):
+def makeImage(node, parent, childno):
 	pass
 
-def makeTable(parent, childno):
+def makeTable(node, parent, childno):
 	pass
 
 
