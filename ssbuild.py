@@ -1,7 +1,6 @@
 from sssections import *
 from parsing import *
-import subprocess
-import config
+import subprocess, config
 
 supportedExt = {
 	"javascript": {
@@ -9,7 +8,7 @@ supportedExt = {
 		"position": "bottom", #bottom. top. head, tail
 		"superembedder":(lambda fname: 
 			"<script type=\"text/javascript\">\n%s\n\t</script>"%
-			(build.readFile(fname,1) )
+			(ssbuild.readFile(fname,1) )
 			),
 		"embedder": (lambda filename: 
 			"<script type=\"text/javascript\" src=\"%s\"></script>"%
@@ -32,11 +31,11 @@ supportedExt = {
 		"position": "head",
 		"superembedder":(lambda fname: 
 			"\t<style type=\"text/css\">\n%s\n\t\t</style>"%
-			( build.readFile(build.compileSassFile(fname), 2))
+			( ssbuild.readFile(ssbuild.compileSassFile(fname), 2))
 			),
 		"embedder": (lambda filename: 
 			"\t<link href=\"%s\" rel='stylesheet' type='text/css' />"%
-			( build.compileSassFile(filename)) )
+			( ssbuild.compileSassFile(filename)) )
 		},
 }
 
@@ -63,15 +62,18 @@ def compileSassFile(filename):
 	return ".".join(filename.split(".")[:-1])+".css"
 
 def readFile(filename, indent):
+	filename = config.relpath(filename)
 	print "reading " + filename
 	try:
+
 		f = open(filename)
 		a = ("\t" * indent) + ("\t" * indent).join(f.readlines())
 		f.close()
 		return a
 
 	except Exception as e:
- 		raise BuildException("Build Error: could not read %s"%(filename));
+ 		raise BuildException("Build Error: could not read %s"%
+ 			(filename));
 
 def buildBody(docblock):
 	return ""

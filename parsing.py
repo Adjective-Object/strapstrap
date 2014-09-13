@@ -1,5 +1,5 @@
 from sssections import *
-import build
+import ssbuild
 
 # Helpers
 tab = "\t"
@@ -224,7 +224,7 @@ def parseIncludeBlock(f):
 
 			if (len(name.split(" ")) == 2):
 				#filename <formatname>
-				if name[1] not in build.supportedExt:
+				if name[1] not in ssbuild.supportedExt:
 					raise SSFormatException(
 						("Error in include block, (line %s)\n"
 						+ "file %s of unsupported type.") %(curline(f), ext))
@@ -239,8 +239,8 @@ def parseIncludeBlock(f):
 				ext = ext[1]
 
 				matches = [
-					sup for sup in build.supportedExt
-					 if (ext in build.supportedExt[sup]["ext"])
+					sup for sup in ssbuild.supportedExt
+					 if (ext in ssbuild.supportedExt[sup]["ext"])
 				]
 				if len(matches) == 0:
 					raise SSFormatException(
@@ -250,9 +250,9 @@ def parseIncludeBlock(f):
 				files.append({
 					"embed":embed, 
 					"filename":filename,
-					"pos":build.supportedExt[matches[0]] ["position"],
-					"execinto":build.supportedExt[matches[0]] ["superembedder"],
-					"exec":build.supportedExt[matches[0]] ["embedder"]})
+					"pos":ssbuild.supportedExt[matches[0]] ["position"],
+					"execinto":ssbuild.supportedExt[matches[0]] ["superembedder"],
+					"exec":ssbuild.supportedExt[matches[0]] ["embedder"]})
 			else:
 				raise badformat
 

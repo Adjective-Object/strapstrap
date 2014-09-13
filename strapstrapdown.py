@@ -1,5 +1,5 @@
-import traceback, sys
-from build import *
+import traceback, sys, os
+import ssbuild, config
 from parsing import *
 
 
@@ -15,19 +15,22 @@ if __name__ == "__main__":
 	else:
 		try:
 			print "opening " + sys.argv[1]
+			config.WORKING_DIRECTORY = os.path.dirname(sys.argv[1])
+
+			print "working directory is " + config.WORKING_DIRECTORY
 			include, styles, docblock = parseRootBlocks(open(sys.argv[1], "r"))
 			
 			print
 
 			f = open(sys.argv[2], "w")
-			f.write(buildHTML(include, styles, docblock))
+			f.write(ssbuild.buildHTML(include, styles, docblock))
 			f.close()
 
 		except Exception as e:
 			if (isinstance(e, SSFormatException)):
 				print "Parsing Error:" + str(e)
 			
-			elif (isinstance(e, BuildException)):
+			elif (isinstance(e, ssbuild.BuildException)):
 				print str(e)
 			
 			else:

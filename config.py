@@ -1,4 +1,4 @@
-from ssbuild import BuildException
+import ssbuild, os
 
 CSS_PATH = "embed.css" 	# filepath for generated css files
 CSS_HARD = False 		# the CSS_EMBED value overrides individual file's
@@ -20,5 +20,9 @@ def getColor(name):
 	if name in COLORS.keys():
 		return COLORS[name]
 	else:
-		raise BuildException("Color %d does not exist"%(name))
+		raise ssbuild.BuildException("Color %d does not exist"%(name))
 
+WORKING_DIRECTORY = "./"
+
+def relpath(path):
+	return os.path.join(WORKING_DIRECTORY, path)
