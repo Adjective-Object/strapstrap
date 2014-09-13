@@ -84,7 +84,7 @@
 ::: include
 : embed
 something.js
-something.sass
+something.scss
 
 :::include 
 something2.js

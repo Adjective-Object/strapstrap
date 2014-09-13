@@ -1,12 +1,8 @@
 from sssections import *
+import build
 
 # Helpers
 tab = "\t"
-
-def printhelptext():
-	print "StrapStrapDown parse"
-	print "usage:"
-	print "\tssdown <file>"
 
 #no newline
 def peekline(f):
@@ -19,7 +15,7 @@ def peekline(f):
 
 #no newline
 def readline(f):
-	return f.readline()[:-1]
+	return f.readline().replace("\n","")
 
 def firstline(s):
 	return s.split("\n",1)[0]
@@ -202,7 +198,7 @@ supportedExt = {
 		"ext":["js"],
 		"position": "bottom", #bottom. top. head, tail
 		"embedder": (lambda filename: 
-			"<script type=\"text/javascript\" src=\"%S\"></script>"%
+			"<script type=\"text/javascript\" src=\"%s\"></script>"%
 			(filename))
 
 		},
@@ -212,14 +208,13 @@ supportedExt = {
 		"embedder": (lambda filename: 
 			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
 			(filename))
-
 		},
 	"sass": {
 		"ext":["scss", "sass"],
 		"position": "head",
 		"embedder": (lambda filename: 
 			"<link href=\"%s\" rel='stylesheet' type='text/css'>"%
-			( compileSass(filename)) )
+			( build.compileSassFile(filename)) )
 		},
 }
 def parseIncludeBlock(f):
@@ -230,7 +225,7 @@ def parseIncludeBlock(f):
 	files = []
 
 	while (sameblock(f)):
-		filename = f.readline();
+		filename = readline(f);
 		name = filename.strip()
 		if name != "":
 
@@ -265,7 +260,11 @@ def parseIncludeBlock(f):
 						("Error in include block, (line %s)\n"
 						+ "filetype %s of unsupported type.") %(curline(f), ext))
 
-				files.append([embed, filename, matches[0]])
+				files.append({
+					"embed":embed, 
+					"filename":filename,
+					"pos":supportedExt[matches[0]] ["position"],
+					"exec":supportedExt[matches[0]] ["embedder"]})
 			else:
 				raise badformat
 
