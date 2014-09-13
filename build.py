@@ -27,6 +27,9 @@ def compileSassFile(filename):
  	
 	return ".".join(filename.split(".")[:-1])+".css"
 
+def readFile(filename):
+	pass;
+
 def buildBody(docblock):
 	return ""
 
