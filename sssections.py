@@ -8,6 +8,15 @@ class SSSection(object):
 	def validate():
 		return "not implemented lol"
 
+	def hasHeader(self, name):
+		return any([name == i[0] for i in self.header])
+
+	def getHeader(self, name):
+		return self.getHeaders(name)[0]
+
+	def getHeaders(self, name):
+		return [i[1] for i in self.header if (i[0] == name)]
+
 anoncount = 0
 
 def genName(bod):
@@ -81,13 +90,13 @@ class ImageSection(SSSection):
 	def __init__(self, name, header):
 		self.name = name
 		self.header = header
+		if not self.hasHeader("alt"):
+			self.header.append(["alt", self.getHeader("image")])
 
 	def renderToHTML(self, parent, childno, indent=0):
-		ind = "\t" * indent
-		inner = ""
-		for childno in range(len(self.children)):
-			inner += self.children[childno].renderToHTML(parent, childno, indent+1)
-		return "%s<section %s>\n%s\n%s</section>\n" % (ind, genName(self), inner, ind)
+		return "\t"*indent + "<img src=\"%s\" alt=\"%s\">"%(
+			self.getHeader("image"), 
+			self.getHeader("alt"))
 	
 	def validate():
 		return "not implemented lol"
@@ -112,17 +121,10 @@ class MarkdownSection(SSSection):
 		self.text = text
 
 	def renderToHTML(self, parent, childno, indent=0):
-		print self.text
+		#print self.text
 		return markdown.markdown(self.text).replace(
 			">", ">\n").replace("<", "\n<").replace(
 			"\n", "\n"+"\t" * indent)[0:-indent]
-
-assigners = {
-	"xycentered":"xycentered",
-	"columns": "columns",
-	"image": "image",
-	"table": "table"
-	}
 
 
 def validateTextBlock ():
@@ -174,12 +176,27 @@ generators = {
 	"table": makeTable
 	}
 
+contexts = [	
+	"text-block",
+	"xycentered",
+	"columns",
+	"image",
+	"table"
+]
+
+assigners = {
+	"xycentered":"xycentered",
+	"columns": "columns",
+	"image": "image",
+	"table": "table"
+}
 
 def getContext(headers):
 	context = "text-block"
 	for asn in assigners:
 		if asn in [i[0] for i in headers]:
 			context = assigners[asn]
+	print ">", context
 	return context
 
 def makeSection((name, header), body):

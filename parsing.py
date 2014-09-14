@@ -130,7 +130,7 @@ def parseSectionHeader(rootindent, f):
 		))
 	"""
 	while poptabs(peekline(f))[1][0:2] == ": ":
-		line = readline(f)[2:]
+		line = poptabs(readline(f))[1][2:]
 		name, content = popfirstword(line)
 
 		cs = content.split(" ")
@@ -165,7 +165,7 @@ def parseSectionBody(rootindent, f):
 
 		if (line != "" and indent < rootindent):
 			#indent decrease
-			print "<", rootindent, indent, "\"%s\""%line
+			#print "<", rootindent, indent, "\"%s\""%line
 			return endbody()
 		
 		elif line.startswith("::"):
@@ -197,7 +197,7 @@ def parseDocumentBlock(filename, f):
 	document.body = []
 	while sameblock(f):
 		document.body += parseSectionBody(0, f)
-		print peekline(f)
+		#print peekline(f)
 	return document, f
 
 def parseCssBlock(name, f, sass=False):
