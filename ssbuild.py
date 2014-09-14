@@ -2,15 +2,17 @@ from sssections import *
 from parsing import *
 from pprint import pprint
 import subprocess, config
+import sass
 
 supportedExt = {
 	"javascript": {
 		"ext":["js"],
 		"position": "bottom", #bottom. top. head, tail
-		"superembedder":(lambda fname: 
+		"superembedder":(lambda content: 
 			"<script type=\"text/javascript\">\n%s\n\t</script>"%
-			(ssbuild.readFile(fname,1) )
+			(content )
 			),
+		"fname -> content": (lambda fname: ssbuild.readFile(fname,1)),
 		"embedder": (lambda filename: 
 			"<script type=\"text/javascript\" src=\"%s\"></script>"%
 			(filename))
@@ -19,10 +21,11 @@ supportedExt = {
 	"css": {
 		"ext":["css"],
 		"position": "head",
-		"superembedder":(lambda fname: 
+		"superembedder":(lambda content: 
 			"\t<style type=\"text/css\">\n%s\n\t</style>"%
-			(readFile(fname, 2))
+			(content)
 			),
+		"fname -> content": (lambda fname: readFile(fname, 2)),
 		"embedder": (lambda filename: 
 			"\t<link href=\"%s\" rel='stylesheet' type='text/css' />"%
 			(filename))
@@ -30,10 +33,11 @@ supportedExt = {
 	"sass": {
 		"ext":["scss", "sass"],
 		"position": "head",
-		"superembedder":(lambda fname: 
+		"superembedder":(lambda content: 
 			"\t<style type=\"text/css\">\n%s\n\t\t</style>"%
-			( ssbuild.readFile(ssbuild.compileSassFile(fname), 2))
+			( content )
 			),
+		"fname -> content": (lambda fname: ssbuild.readFile(ssbuild.compileSassFile(fname), 2)),
 		"embedder": (lambda filename: 
 			"\t<link href=\"%s\" rel='stylesheet' type='text/css' />"%
 			( ssbuild.compileSassFile(filename)) )
@@ -44,12 +48,8 @@ class BuildException(Exception):
 	def __init__(self, str):
 		Exception.__init__(self,str)
 
-def compileSassToFile(name, sass):
-	print "compiling sass to file %s.css"%(name)
-	f = open(name+".css", "w")
-	f.write( compileSass(sass) );
-	f.close()
-	return name+".css"
+def compileSass(sassstr):
+	return sass.compile_string(sassstr)
 
 def compileSassFile(filename):
 	print "compiling %s"%(filename)
@@ -89,7 +89,7 @@ def inc(includes, pos):
 
 def bld(includes, pos):
 	return "\t"+"\n\t\n\t".join(
-		[include["execinto"](include["filename"]) 
+		[include["execinto"]( include["decode"] (include["filename"])) 
 		for include in includes if 
 		(config.render_embed(include["embed"], include["filename"]) and include["pos"] == pos) ])
 
@@ -149,16 +149,28 @@ def registerGlobals(docblock):
 	"""
 
 def buildFromBlocks(styleblocks):
+	contents = []
 	for block in styleblocks:
-		#if isinstance(styleblocks, )
-		pass
-	return ""
+		if isinstance(block, CssBlock):
+			contents.append(block.css)
+		elif isinstance(block, SassBlock):
+			contents.append(compileSass(block.sass))
+		else:
+			contents.append("FUCK { }")
+	return contents
 
 def buildHTML(includes, styleblocks, docblock):
 
 	registerGlobals(docblock)
+	fromblocks = ("\n".join(
+				[supportedExt["css"]["superembedder"](a).replace("\n","\n\t\t")
+				for a in buildFromBlocks(styleblocks)]))
 
-	include_head = bld(includes, "head") + buildFromBlocks(styleblocks)
+	fromblocks= fromblocks.replace(
+		"\t</style>","</style>").replace(
+		"</style>\n\t<style", "</style>\n\t\t<style")
+
+	include_head = (bld(includes, "head") + fromblocks)
 	embed_head = inc(includes, "head")
 	include_bottom = bld(includes, "bottom")
 	embed_bottom = inc(includes, "bottom")

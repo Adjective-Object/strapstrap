@@ -165,6 +165,7 @@ def parseSectionBody(rootindent, f):
 
 		if (line != "" and indent < rootindent):
 			#indent decrease
+			print "<", rootindent, indent, "\"%s\""%line
 			return endbody()
 		
 		elif line.startswith("::"):
@@ -172,10 +173,11 @@ def parseSectionBody(rootindent, f):
 			if(len(mkdwnlines) > 0):
 				body.append(MarkdownSection("\n".join(mkdwnlines)))
 				mkdwnlines = []
+			
 			body.append(makeSection(
 				parseSectionHeader(rootindent, f),
-				parseSectionBody(indent, f)
-				))
+				parseSectionBody(indent+1, f)
+			))
 
 		else:
 			mkdwnlines.append("\t" * (indent - rootindent -1) + line)
@@ -192,10 +194,11 @@ def parseDocumentBlock(filename, f):
 	print "\tdocument body line %s"%(curline(f))
 	#print "\tbeginning with '%s'"%(peekline(f))
 
-	document.body = parseSectionBody(0, f)
+	document.body = []
+	while sameblock(f):
+		document.body += parseSectionBody(0, f)
+		print peekline(f)
 	return document, f
-
-	documentprint 
 
 def parseCssBlock(name, f, sass=False):
 	header = parseBlockHeader(f)
@@ -214,6 +217,10 @@ def parseIncludeBlock(f):
 	header = parseBlockHeader(f)
 	
 	embed = any(["embed" == h[0] for h in header])
+	embed = any(["noembed" == h[0] for h in header])
+	if not embed:
+		embed = None;
+
 
 	files = []
 
@@ -257,6 +264,7 @@ def parseIncludeBlock(f):
 					"embed":embed, 
 					"filename":filename,
 					"pos":ssbuild.supportedExt[matches[0]] ["position"],
+					"decode":ssbuild.supportedExt[matches[0]]["fname -> content"],
 					"execinto":ssbuild.supportedExt[matches[0]] ["superembedder"],
 					"exec":ssbuild.supportedExt[matches[0]] ["embedder"]})
 			else:

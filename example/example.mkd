@@ -68,21 +68,19 @@
 
 	Made with [MarketDown](http://marketdown.com)
 
-::: sass custom-css
+::: sass custom-sass
 
 .custom {
-	some shit
+	content: "some shit";
 }
 
 ::: css custom-css
-: embed
 
 .custom {
-	some shit
+	background-color:red;
 }
 
 ::: include
-: embed
 something.js
 something.scss
 

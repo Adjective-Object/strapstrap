@@ -7,18 +7,39 @@ class SSSection(object):
 	
 	def validate():
 		return "not implemented lol"
-	
+
+anoncount = 0
+
+def genName(bod):
+	name = bod.name
+	if name == "":
+		if bod.css != None:
+			name = "anon-%s"%(anoncount)
+		else:
+			return ""
+
+	a = []
+	for i in name.split(" "):
+		if i.startswith("."):
+			a.append( "class=\"%s\""%(i[1:]) )
+		else:
+			a.append( "id=\"%s\""%(i) )
+	return " ".join(a)
+
 class BlockSection(SSSection):
+	css = None
+
 	def __init__(self, name, header, children):
 		self.name = name
 		self.header = header
 		self.children = children
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
+		ind = "\t" * indent
 		inner = ""
 		for childno in range(len(self.children)):
-			inner += self.children[childno].renderToHTML(parent, childno)
-		return "<section>%s</section>" % inner
+			inner += self.children[childno].renderToHTML(parent, childno, indent+1)
+		return "%s<section %s>\n%s\n%s</section>\n" % (ind, genName(self), inner, ind)
 			
 	
 	def validate():
@@ -30,26 +51,28 @@ class XYCenteredSection(SSSection):
 		self.header = header
 		self.children = children
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
+		ind = "\t" * indent
 		inner = ""
 		for childno in range(len(self.children)):
-			inner += self.children[childno].renderToHTML(parent, childno)
-		return "<section>%s</section>" % inner
+			inner += self.children[childno].renderToHTML(parent, childno, indent+1)
+		return "%s<section %s>\n%s\n%s</section>\n" % (ind, genName(self), inner, ind)
 	
 	def validate():
 		return "not implemented lol"
 
 class ColumnSection(BlockSection):
-	def __init__(self, name, header, children):
+	def __init__(self, name, header, children, indent=0):
 		self.name = name
 		self.header = header
 		self.children = children
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
+		ind = "\t" * indent
 		inner = ""
 		for childno in range(len(self.children)):
-			inner += self.children[childno].renderToHTML(parent, childno)
-		return "<section>%s</section>" % inner
+			inner += self.children[childno].renderToHTML(parent, childno, indent+1)
+		return "%s<section %s>\n%s\n%s</section>\n" % (ind, genName(self), inner, ind)
 	
 	def validate():
 		return "not implemented lol"
@@ -59,11 +82,12 @@ class ImageSection(SSSection):
 		self.name = name
 		self.header = header
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
+		ind = "\t" * indent
 		inner = ""
 		for childno in range(len(self.children)):
-			inner += self.children[childno].renderToHTML(parent, childno)
-		return "<section>%s</section>" % inner
+			inner += self.children[childno].renderToHTML(parent, childno, indent+1)
+		return "%s<section %s>\n%s\n%s</section>\n" % (ind, genName(self), inner, ind)
 	
 	def validate():
 		return "not implemented lol"
@@ -74,7 +98,7 @@ class TableSection(SSSection):
 		self.header = header
 		self.strapstrapdown = strapstrapdown
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
 		return "not implemented lol"
 	
 	def validate():
@@ -87,37 +111,11 @@ class MarkdownSection(SSSection):
 	def __init__(self, text):
 		self.text = text
 
-	def renderToHTML(self, parent, childno):
+	def renderToHTML(self, parent, childno, indent=0):
 		print self.text
-		return markdown.markdown(self.text)
-
-class Section(SSSection):
-
-	name = "!!"
-	header = None
-	body = None
-
-	def __init__(self, name, context, header, body):
-		self.name = name
-		self.header = header
-		self.body = body
-
-	def __str__(self):
-		return (self.name if self.name != "" else "<anonymous>")
-
-	def checkValidHeader(self):
-		return validators[self.context]()
-
-	def renderToHTML(self, parent, childno):
-		if (self.context in generators):
-			return generators[self.context](parent, childno)
-
-		else:
-			print "unknown context", self.context
-			print "defaulting to text-block"
-			return generators["text-block"](parent, childno)
-
-
+		return markdown.markdown(self.text).replace(
+			">", ">\n").replace("<", "\n<").replace(
+			"\n", "\n"+"\t" * indent)[0:-indent]
 
 assigners = {
 	"xycentered":"xycentered",
