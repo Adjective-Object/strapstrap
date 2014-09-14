@@ -178,7 +178,7 @@ def parseSectionBody(rootindent, f):
 				))
 
 		else:
-			mkdwnlines.append("\t" * (indent - rootindent) + line)
+			mkdwnlines.append("\t" * (indent - rootindent -1) + line)
 			#it's markdown
 			#print rootindent * "\t" + "M>", mkdwnlines[-1]
 			f.readline()

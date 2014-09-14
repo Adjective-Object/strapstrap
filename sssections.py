@@ -9,14 +9,15 @@ class SSSection(object):
 		return "not implemented lol"
 	
 class BlockSection(SSSection):
-	def __init__(self, header, children):
+	def __init__(self, name, header, children):
+		self.name = name
 		self.header = header
 		self.children = children
 
 	def renderToHTML(self, parent, childno):
 		inner = ""
-		for child in children:
-			inner += child.renderToHTML()
+		for childno in range(len(self.children)):
+			inner += self.children[childno].renderToHTML(parent, childno)
 		return "<section>%s</section>" % inner
 			
 	
@@ -24,43 +25,56 @@ class BlockSection(SSSection):
 		return "not implemented lol"
 
 class XYCenteredSection(SSSection):
-	def __init__(self, header, children):
+	def __init__(self, name, header, children):
+		self.name = name
 		self.header = header
 		self.children = children
 
-	def renderToHTML():
-		return "not implemented lol"
+	def renderToHTML(self, parent, childno):
+		inner = ""
+		for childno in range(len(self.children)):
+			inner += self.children[childno].renderToHTML(parent, childno)
+		return "<section>%s</section>" % inner
 	
 	def validate():
 		return "not implemented lol"
 
 class ColumnSection(BlockSection):
-	def __init__(self, header, children):
+	def __init__(self, name, header, children):
+		self.name = name
 		self.header = header
 		self.children = children
 
-	def renderToHTML():
-		return "not implemented lol"
+	def renderToHTML(self, parent, childno):
+		inner = ""
+		for childno in range(len(self.children)):
+			inner += self.children[childno].renderToHTML(parent, childno)
+		return "<section>%s</section>" % inner
 	
 	def validate():
 		return "not implemented lol"
 
 class ImageSection(SSSection):
-	def __init__(self, header):
+	def __init__(self, name, header):
+		self.name = name
 		self.header = header
 
-	def renderToHTML():
-		return "<img src=\"%s\">" % header.get('src')
+	def renderToHTML(self, parent, childno):
+		inner = ""
+		for childno in range(len(self.children)):
+			inner += self.children[childno].renderToHTML(parent, childno)
+		return "<section>%s</section>" % inner
 	
 	def validate():
 		return "not implemented lol"
 
 class TableSection(SSSection):
-	def __init__(self, header, strapstrapdown):
+	def __init__(self, name, header, strapstrapdown):
+		self.name = name
 		self.header = header
 		self.strapstrapdown = strapstrapdown
 
-	def renderToHTML():
+	def renderToHTML(self, parent, childno):
 		return "not implemented lol"
 	
 	def validate():
@@ -68,13 +82,14 @@ class TableSection(SSSection):
 	
 class MarkdownSection(SSSection):
 
-	markdown = "<FUCK>"
+	text = "<FUCK>"
 
-	def __init__(self, markdown):
-		self.markdown = markdown
+	def __init__(self, text):
+		self.text = text
 
-	def __str__(self):
-		return "..."
+	def renderToHTML(self, parent, childno):
+		print self.text
+		return markdown.markdown(self.text)
 
 class Section(SSSection):
 
@@ -167,6 +182,20 @@ def getContext(headers):
 	for asn in assigners:
 		if asn in [i[0] for i in headers]:
 			context = assigners[asn]
+	return context
 
 def makeSection((name, header), body):
-	return Section(name, getContext(header), header, body)
+	context = getContext(header)
+
+	if (context == "text-block"):
+		return BlockSection(name, header, body)
+	elif (context == "xycentered"):
+		return XYCenteredSection(name, header, body)
+	elif (context == "columns"):
+		return ColumnSection(name, header, body)
+	elif (context == "image"):
+		return ImageSection(name, header)
+	elif (context == "table"):
+		return TableSection(name, header)
+	else:
+		raise Exception("FUCK %s"%( context ) )

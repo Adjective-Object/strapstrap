@@ -77,7 +77,9 @@ def readFile(filename, indent):
  			(filename));
 
 def buildBody(docblock):
-	return docblock.renderToHTML();
+	b = docblock.body
+	return "\n".join(
+		[b[i].renderToHTML(None, i) for i in range(len(b))]);
 
 def inc(includes, pos):
 	return "\t"+"\n\t".join(
@@ -148,7 +150,9 @@ def registerGlobals(docblock):
 
 def buildFromBlocks(styleblocks):
 	for block in styleblocks:
-		
+		#if isinstance(styleblocks, )
+		pass
+	return ""
 
 def buildHTML(includes, styleblocks, docblock):
 
