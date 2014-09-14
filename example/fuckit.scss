@@ -158,7 +158,7 @@ a{
 		
 	//because colmumns:
 	&>section{
-	vertical-align: top;
+	vertical-align: middle;
 		@include fontsize;
 
 		display:inline-block !important;

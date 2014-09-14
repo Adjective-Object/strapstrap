@@ -1,6 +1,6 @@
 
 ::: document Page Header
-: icon ./favicon.png
+: icon ./example/favicon.png
 : embed css hard
 : js-path jizz
 : css-path cizz
@@ -9,7 +9,7 @@
 : fullfold
 : xycentered
 : minheight 384px
-: background ./img.jpg
+: background ./example/img.jpg
 : bgfill hilight 0.8
 
 	#&#9660; AntiStrap
@@ -30,7 +30,7 @@
 	: halign center
 
 		::
-		: image ./code.png
+		: image ./example/code.png
 		: clip circle
 		: width 100%
 
@@ -47,7 +47,7 @@
 		:: Head .lc2
 		: fullfold
 		: xycentered
-		: background ./img.jpg
+		: background ./example/img.jpg
 		: bgfill hilight 0.8
 
 			#StrapStrap
@@ -79,35 +79,35 @@
 	##Look at all these things we can do
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 	::
-	: image ./hover.jpg
+	: image ./example/hover.jpg
 	: width 1grid
 
 
@@ -120,11 +120,11 @@
 : centered
 : minheight 
 
-	Made with [&#9660; AntiStrap](https://github.com/Adjective-Object/strapstrap)
+	Made with [&#9660; AntiStrap](http://marketdown.com)
 
 	Max @ Pennapps 2014
 
 
 ::: include
 
-fuckit.scss
+./example/fuckit.scss
