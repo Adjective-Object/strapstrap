@@ -67,8 +67,9 @@ class SSDoc(object):
 	headers = []
 	body = []
 
-	def __init__(doc, name):
+	def __init__(doc, name, headers):
 		doc.filename = name
+		doc.headers = headers
 
 	def hasAttr(doc, name):
 		return any([name == i[0] for i in doc.headers])
@@ -109,7 +110,8 @@ def parseBlockHeader(f):
 		line = readline(f)
 		line = popfirstword(line)[1]
 		name, content = popfirstword(line)
-		attrs.append( [name , content.split(" ")] )
+		spl = content.split(" ")
+		attrs.append( [name , (spl if (len(spl) != 1) else spl[0]) ] )
 
 	print
 
@@ -130,7 +132,12 @@ def parseSectionHeader(rootindent, f):
 	while poptabs(peekline(f))[1][0:2] == ": ":
 		line = readline(f)[2:]
 		name, content = popfirstword(line)
-		attrs.append( [name , content.split(" ")] )
+
+		cs = content.split(" ")
+		if len(cs) == 1:
+			cs = cs[0]
+
+		attrs.append( [name , cs] )
 
 	"""
 	for i in attrs:
@@ -180,8 +187,7 @@ def parseSectionBody(rootindent, f):
 	return endbody()
 
 def parseDocumentBlock(filename, f):
-	document = SSDoc(filename)
-	document.header = parseBlockHeader(f)
+	document = SSDoc(filename, parseBlockHeader(f))
 
 	print "\tdocument body line %s"%(curline(f))
 	#print "\tbeginning with '%s'"%(peekline(f))
@@ -207,7 +213,7 @@ def parseCssBlock(name, f, sass=False):
 def parseIncludeBlock(f):
 	header = parseBlockHeader(f)
 	
-	embed = "embed" in header
+	embed = any(["embed" == h[0] for h in header])
 
 	files = []
 
