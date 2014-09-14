@@ -1,12 +1,10 @@
 
 ::: document Page Header
 : icon ./favicon.png
-: color d1 #222222 
-: color d2 #555555
-: color b1 #AAAAAA 
-: color b2 #FFFFFF
-: color hilight #FFBBAA
-: embed
+: noembed js hard
+: embed css
+: js-path jizz
+: css-path cizz
 
 :: Head
 : fullfold

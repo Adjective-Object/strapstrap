@@ -1,7 +1,7 @@
 from sssections import *
 from parsing import *
-import subprocess
-import config
+from pprint import pprint
+import subprocess, config
 
 supportedExt = {
 	"javascript": {
@@ -9,7 +9,7 @@ supportedExt = {
 		"position": "bottom", #bottom. top. head, tail
 		"superembedder":(lambda fname: 
 			"<script type=\"text/javascript\">\n%s\n\t</script>"%
-			(build.readFile(fname,1) )
+			(ssbuild.readFile(fname,1) )
 			),
 		"embedder": (lambda filename: 
 			"<script type=\"text/javascript\" src=\"%s\"></script>"%
@@ -32,11 +32,11 @@ supportedExt = {
 		"position": "head",
 		"superembedder":(lambda fname: 
 			"\t<style type=\"text/css\">\n%s\n\t\t</style>"%
-			( build.readFile(build.compileSassFile(fname), 2))
+			( ssbuild.readFile(ssbuild.compileSassFile(fname), 2))
 			),
 		"embedder": (lambda filename: 
 			"\t<link href=\"%s\" rel='stylesheet' type='text/css' />"%
-			( build.compileSassFile(filename)) )
+			( ssbuild.compileSassFile(filename)) )
 		},
 }
 
@@ -63,43 +63,98 @@ def compileSassFile(filename):
 	return ".".join(filename.split(".")[:-1])+".css"
 
 def readFile(filename, indent):
+	filename = config.relpath(filename)
 	print "reading " + filename
 	try:
+
 		f = open(filename)
 		a = ("\t" * indent) + ("\t" * indent).join(f.readlines())
 		f.close()
 		return a
 
 	except Exception as e:
- 		raise BuildException("Build Error: could not read %s"%(filename));
+ 		raise BuildException("Build Error: could not read %s"%
+ 			(filename));
 
 def buildBody(docblock):
-	return ""
+	return docblock.renderToHTML();
 
 def inc(includes, pos):
-	return "\t"+"\n\t".join([include["exec"](include["filename"]) 
+	return "\t"+"\n\t".join(
+		[include["exec"](include["filename"]) 
 		for include in includes if 
-		(not include["embed"] and include["pos"] == pos) ])
+		(not config.render_embed(include["embed"], include["filename"]) and include["pos"] == pos) ])
 
 def bld(includes, pos):
-	return "\t"+"\n\t\n\t".join([include["execinto"](include["filename"]) 
+	return "\t"+"\n\t\n\t".join(
+		[include["execinto"](include["filename"]) 
 		for include in includes if 
-		(not include["embed"] and include["pos"] == pos) ])
+		(config.render_embed(include["embed"], include["filename"]) and include["pos"] == pos) ])
+
+def dokblok(b, docblock, attr):
+	n = docblock.getAttr(attr)
+	if isinstance(n, list):
+		for e in range(len(n)):
+			#print n[e], "hard", n[e]=="hard", n[e-1]
+			if n[e] == "css":
+				config.CSS_EMBED = b
+			elif n[e] == "js":
+				config.JS_EMBED = b
+			elif n[e] == "hard":
+				if e-1 >= 0:
+					if n[e-1] == "css":
+						config.CSS_HARD = True
+					elif n[e-1] == "js":
+						config.JS_HARD = True
+
+	elif(n == "css"):
+		config.CSS_EMBED = b
+	elif(n == "js"):
+		config.JS_EMBED = b
 
 def registerGlobals(docblock):
+
+	#pprint(docblock.headers)
+
+
+	if docblock.hasAttr("noembed"):
+		dokblok(False, docblock, "noembed")
+
+	if docblock.hasAttr("embed"):
+		dokblok(True, docblock, "embed")
 
 	if docblock.hasAttr("icon"):
 		config.FAVICON = docblock.getAttr("icon")
 
+	if docblock.hasAttr("js-path"):
+		config.JS_PATH = docblock.getAttr("js-path")
+
+	if docblock.hasAttr("css-path"):
+		config.CSS_PATH = docblock.getAttr("css-path")
+
 	for i in docblock.getAttrs("color"):
-		s = i[1].split(" ")
-		config.registerColors(s[0], s[1])
+		config.registerColor(i)
+	"""
+	print "js"
+
+	print "embed", config.JS_EMBED
+	print "hard ", config.JS_HARD
+
+	print "css"
+
+	print "embed", config.CSS_EMBED
+	print "hard ", config.CSS_HARD
+	"""
+
+def buildFromBlocks(styleblocks):
+	for block in styleblocks:
+		
 
 def buildHTML(includes, styleblocks, docblock):
 
 	registerGlobals(docblock)
 
-	include_head = bld(includes, "head")
+	include_head = bld(includes, "head") + buildFromBlocks(styleblocks)
 	embed_head = inc(includes, "head")
 	include_bottom = bld(includes, "bottom")
 	embed_bottom = inc(includes, "bottom")

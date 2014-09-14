@@ -1,5 +1,5 @@
 from sssections import *
-import build
+import ssbuild
 
 # Helpers
 tab = "\t"
@@ -67,8 +67,9 @@ class SSDoc(object):
 	headers = []
 	body = []
 
-	def __init__(doc, name):
+	def __init__(doc, name, headers):
 		doc.filename = name
+		doc.headers = headers
 
 	def hasAttr(doc, name):
 		return any([name == i[0] for i in doc.headers])
@@ -109,7 +110,8 @@ def parseBlockHeader(f):
 		line = readline(f)
 		line = popfirstword(line)[1]
 		name, content = popfirstword(line)
-		attrs.append( [name , content.split(" ")] )
+		spl = content.split(" ")
+		attrs.append( [name , (spl if (len(spl) != 1) else spl[0]) ] )
 
 	print
 
@@ -130,7 +132,12 @@ def parseSectionHeader(rootindent, f):
 	while poptabs(peekline(f))[1][0:2] == ": ":
 		line = readline(f)[2:]
 		name, content = popfirstword(line)
-		attrs.append( [name , content.split(" ")] )
+
+		cs = content.split(" ")
+		if len(cs) == 1:
+			cs = cs[0]
+
+		attrs.append( [name , cs] )
 
 	"""
 	for i in attrs:
@@ -180,8 +187,7 @@ def parseSectionBody(rootindent, f):
 	return endbody()
 
 def parseDocumentBlock(filename, f):
-	document = SSDoc(filename)
-	document.header = parseBlockHeader(f)
+	document = SSDoc(filename, parseBlockHeader(f))
 
 	print "\tdocument body line %s"%(curline(f))
 	#print "\tbeginning with '%s'"%(peekline(f))
@@ -207,7 +213,7 @@ def parseCssBlock(name, f, sass=False):
 def parseIncludeBlock(f):
 	header = parseBlockHeader(f)
 	
-	embed = "embed" in header
+	embed = any(["embed" == h[0] for h in header])
 
 	files = []
 
@@ -224,7 +230,7 @@ def parseIncludeBlock(f):
 
 			if (len(name.split(" ")) == 2):
 				#filename <formatname>
-				if name[1] not in build.supportedExt:
+				if name[1] not in ssbuild.supportedExt:
 					raise SSFormatException(
 						("Error in include block, (line %s)\n"
 						+ "file %s of unsupported type.") %(curline(f), ext))
@@ -239,8 +245,8 @@ def parseIncludeBlock(f):
 				ext = ext[1]
 
 				matches = [
-					sup for sup in build.supportedExt
-					 if (ext in build.supportedExt[sup]["ext"])
+					sup for sup in ssbuild.supportedExt
+					 if (ext in ssbuild.supportedExt[sup]["ext"])
 				]
 				if len(matches) == 0:
 					raise SSFormatException(
@@ -250,9 +256,9 @@ def parseIncludeBlock(f):
 				files.append({
 					"embed":embed, 
 					"filename":filename,
-					"pos":build.supportedExt[matches[0]] ["position"],
-					"execinto":build.supportedExt[matches[0]] ["superembedder"],
-					"exec":build.supportedExt[matches[0]] ["embedder"]})
+					"pos":ssbuild.supportedExt[matches[0]] ["position"],
+					"execinto":ssbuild.supportedExt[matches[0]] ["superembedder"],
+					"exec":ssbuild.supportedExt[matches[0]] ["embedder"]})
 			else:
 				raise badformat
 
