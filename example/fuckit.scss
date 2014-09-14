@@ -94,13 +94,14 @@ a{
 
 #Head {
 	position:relative;
+
+    background: rgba($hilight, 0.5) url(./example/img.jpg);
+    background-position: center;
+    
     background-size: cover;
 	-moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
-
-    background: rgba($hilight, 0.5) url(./example/img.jpg);
-    background-position: center;
 
     height:  100%;
     min-height: 768px/2;

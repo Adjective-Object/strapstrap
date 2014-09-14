@@ -121,9 +121,8 @@
 : minheight 
 
 	Made with [&#9660; AntiStrap](https://github.com/Adjective-Object/strapstrap)
-	
-	Max @ Pennapps 2014
 
+	Max @ Pennapps 2014
 
 ::: include
 
