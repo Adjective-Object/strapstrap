@@ -158,17 +158,21 @@ def parseSectionBody(rootindent, f):
 	
 	mkdwnlines = []
 
+	pre = False;
+
 	while (peekline(f) != None and 
 			not peekline(f).startswith(":::")):
 
 		indent, line = poptabs(peekline(f))
+		if line.startswith ("```"):
+			pre = not pre
 
-		if (line != "" and indent < rootindent):
+		if (line != "" and indent < rootindent and not pre):
 			#indent decrease
 			#print "<", rootindent, indent, "\"%s\""%line
 			return endbody()
 		
-		elif line.startswith("::"):
+		elif line.startswith("::") and not pre:
 			#print rootindent, indent;
 			if(len(mkdwnlines) > 0):
 				body.append(MarkdownSection("\n".join(mkdwnlines)))
@@ -237,7 +241,9 @@ def parseIncludeBlock(f):
 
 			if (len(name.split(" ")) == 2):
 				#filename <formatname>
-				if name[1] not in ssbuild.supportedExt:
+				if all(
+					[name[1] not in ssbuild.supportedExt[ext] 
+						for x in ssbuild.supportedExt.keys()]):
 					raise SSFormatException(
 						("Error in include block, (line %s)\n"
 						+ "file %s of unsupported type.") %(curline(f), ext))
@@ -247,12 +253,10 @@ def parseIncludeBlock(f):
 				#filename.extension
 
 				ext = name.split(".")
-				if len(ext) < 2:
-					raise badformat
-				ext = ext[1]
+				ext = ext[-1]
 
 				matches = [
-					sup for sup in ssbuild.supportedExt
+					sup for sup in ssbuild.supportedExt.keys()
 					 if (ext in ssbuild.supportedExt[sup]["ext"])
 				]
 				if len(matches) == 0:

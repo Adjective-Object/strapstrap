@@ -4,79 +4,225 @@
 		<link rel='icon' type='image/png' href='./favicon.png'>
 		<meta name="viewport" content="width=device-width" />
 		<style type="text/css">
-		
-		.custom {
-			content: "some shit";
-		}
-		
-		
-		</style>
-		<style type="text/css">
-		.custom {
-		  background-color: red; }
-		
+@import url(http://fonts.googleapis.com/css?family=Inconsolata|Raleway:200,300,400);
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s; }
+
+body, html {
+  width: 100%;
+  height: 100%; }
+
+body {
+  font-family: Raleway; }
+  body > section {
+    max-width: 1024px;
+    padding: 32px;
+    margin-left: auto;
+    margin-right: auto; }
+
+code, pre {
+  font-family: Inconsolata;
+  border: 1px solid red; }
+
+h1, h2, h3, h4, h5 {
+  font-weight: 300;
+  margin-bottom: 16px; }
+
+h1 {
+  font-size: 64px; }
+
+h2 {
+  font-size: 32px; }
+
+h3 {
+  font-size: 16px; }
+
+p {
+  font-size: 16px; }
+
+.lc {
+  color: #AAAAAA;
+  background-color: #EEEEEE; }
+
+.lc2 {
+  color: #EEEEEE;
+  background-color: #AAAAAA; }
+
+.dc {
+  color: #EEEEEE;
+  background-color: #222222; }
+
+a {
+  color: #DA727E;
+  text-decoration: none; }
+
+.dc a:hover {
+  color: #EEEEEE; }
+
+#Head {
+  position: relative;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  background: rgba(218, 114, 126, 0.3) url(./img.jpg);
+  background-position: center;
+  height: 100%;
+  min-height: 768px/2;
+  width: 100% !important;
+  max-width: 100%;
+  overflow: hidden; }
+
+#Head .xycenteredinner {
+  border: 1px solid #EEEEEE;
+  padding: 64px;
+  position: relative;
+  z-index: 2;
+  margin-top: -200px; }
+
+.xycenteredinner {
+  position: absolute;
+  width: 768px;
+  left: 50%;
+  top: 50%;
+  margin-left: -384px; }
+
+#Head:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: inherit;
+  content: ' ';
+  z-index: 1; }
+
+#About {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0; }
+  #About > section {
+    display: inline-block !important;
+    padding: 32px; }
+    #About > section h1, #About > section h2, #About > section h3, #About > section h4, #About > section h5 {
+      font-weight: 300;
+      margin-bottom: 16px; }
+    #About > section h1 {
+      font-size: 64px; }
+    #About > section h2 {
+      font-size: 32px; }
+    #About > section h3 {
+      font-size: 16px; }
+    #About > section p {
+      font-size: 16px; }
+
+#column1 {
+  position: relative;
+  width: 340.33333px; }
+  #column1 h1 {
+    text-align: center; }
+  #column1 img {
+    width: 100%; }
+
+#column2-3 {
+  width: 681.66667px; }
+
+#Anotherdiv img {
+  width: 192px;
+  margin: 16px; }
+
+#Footer {
+  position: relative;
+  width: 100% !important;
+  min-width: 100% !important;
+  height: 128px;
+  text-align: center; }
+  #Footer .xycenteredinner {
+    margin-top: -1em; }
+
 		</style>	
-		<link href="something.css" rel='stylesheet' type='text/css' />	
+		
 	</head>
 	<body>
 
-<section id="Head">
+<section id="Head" class="lc2"><section class="xycenteredinner">
 
 	<h1>
-	Project Name
+	&#9660; AntiStrap
 	</h1>
 	
 	
 	<h2>
-	Project subtitle: for the modern age
+	Markdown for the modern age
 	</h2>
 	
 	
 	<p>
-	This is a paragraph about the project 
-	man it's so cool I bet you wish your project 
-	was this cool
+	StrapStrap is a simple markup language made for the 
+	rapid prototyping of longscroll information websites. 
+	</p>
+	
+	
+	<p>
+	With A simple Markdown-like syntax, StrapStrap allows programmers
+	to produce beautiful-looking and highly customizable sites with
+	little knowledge of design or ingoing effort.
 	</p>
 
-</section>
+</section></section>
 
 <section id="About">
 	<section id="column1">
-		<section class="custom">
-
-			<p>
-			style me here
-			</p>
-
-		</section>
-		<section class="custom">
-
-			<p>
-			style me pls
-			</p>
-
-		</section>
-		<section class="custom">
-
-			<p>
-			style me too
-			</p>
-
-		</section>
+		<img src="./code.png" alt="./code.png">
+		<h1>
+		Simple Syntax
+		</h1>
+		
+		
+		<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at augue interdum est volutpat ultricies. Donec laoreet mi hendrerit ipsum porta ultricies. Nunc nulla nisi, rhoncus nec dignissim non, eleifend ac magna.
+		</p>
 
 	</section>
 	<section id="column2-3">
-		<img src="./middleimage.jpg" alt="./middleimage.jpg">
-		<p>
-		this content goes in the middle column
-		</p>
 
-	</section>
-	<section id="column4">
-		<img src="./rightimage.jpg" alt="./rightimage.jpg">
-		<p>
-		this content goes in the right column
-		</p>
+		<pre>
+		
+		<code>
+		:: Head .lc2
+		: fullfold
+		: xycentered
+		: background ./img.jpg
+		: bgfill hilight 0.8
+		
+		#StrapStrap
+		##Markdown for the modern age
+		
+		StrapStrap is a simple markup language made for the 
+		rapid prototyping of longscroll information websites.
+		
+		With A simple Markdown-like syntax, StrapStrap allows programmers
+		to produce beautiful-looking and highly customizable sites with
+		little knowledge of design or ingoing effort.
+		
+		
+		:: About
+		: columns 3
+		
+		:: column1
+		    #Simple Syntax
+		
+		    StrapStrapDown's simple syntax allows users
+		    to suck a dick wooo get at me noobs
+		
+		</code>
+		
+		</pre>
 
 	</section>
 
@@ -84,28 +230,18 @@
 
 <section id="Anotherdiv">
 
-	<p>
-	shit son we're so cool man so cool so cool man we're so cool
-	</p>
+	<h1>
+	Hey, Check This Out
+	</h1>
 	
 	
-	<p>
-	BUY THESE HEADPHONES: JVC HA-M750
-	Koss Portapro &lt;- runnng?
-	</p>
-	<section id="table">
-
-		<p>
-		| a    | b  | c |
-		| easy | as |   |
-		| 1    | 2  | 3 |
-		</p>
-
-	</section>
-
+	<h2>
+	Look at all these things we can do
+	</h2>
+	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">	<img src="./hover.jpg" alt="./hover.jpg">
 </section>
 
-<section id="Footer">
+<section id="Footer" class="dc"><section class="xycenteredinner">
 
 	<p>
 	Made with 
@@ -114,13 +250,17 @@
 	</a>
 	
 	</p>
+	
+	
+	<p>
+	Max @ Pennapps 2014
+	</p>
 
-</section>
+</section></section>
 
 	
 		
  	
-	<script type="text/javascript" src="something.js"></script>
-	<script type="text/javascript" src="something2.js"></script>	
+		
 	</body>
 </html>

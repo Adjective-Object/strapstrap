@@ -1,5 +1,7 @@
 import ssbuild, os
 
+#Meta
+
 CSS_EMBED = True
 CSS_PATH = "genstyle" 	# filepath for generated css files
 CSS_HARD = False 		# the CSS_EMBED value overrides individual file's
@@ -8,6 +10,8 @@ JS_EMBED = True
 JS_PATH  = "genscript"
 JS_HARD  = False 		# the JS_EMBED value overrides individual file's
 						# import values
+
+#Style stuff
 
 FAVICON = None
 
@@ -18,6 +22,10 @@ COLORS = {
 "l2":"#FFFFFF",
 "hilight":"65A683"
 }
+
+GRIDSIZE = 128
+WIDTH_LARGE = 1025
+WIDTH_SMALL = 768
 
 def registerColor(name_hex):
 	COLORS[name_hex[0]] = name_hex[1]

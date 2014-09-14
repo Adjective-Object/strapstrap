@@ -2,7 +2,7 @@ from sssections import *
 from parsing import *
 from pprint import pprint
 import subprocess, config
-import sass
+import sass, re
 
 supportedExt = {
 	"javascript": {
@@ -37,10 +37,11 @@ supportedExt = {
 			"\t<style type=\"text/css\">\n%s\n\t\t</style>"%
 			( content )
 			),
-		"fname -> content": (lambda fname: ssbuild.readFile(ssbuild.compileSassFile(fname), 2)),
+		"fname -> content": (lambda fname: ssbuild.compileSassFile(fname) ),
 		"embedder": (lambda filename: 
 			"\t<link href=\"%s\" rel='stylesheet' type='text/css' />"%
-			( ssbuild.compileSassFile(filename)) )
+			( ssbuild.compileSassToFile(filename, 
+				re.sub(filename ("(\\.scss|\\.sass)", "\\.css") )) ))
 		},
 }
 
@@ -52,15 +53,13 @@ def compileSass(sassstr):
 	return sass.compile_string(sassstr)
 
 def compileSassFile(filename):
-	print "compiling %s"%(filename)
-	s = subprocess.Popen(["sass", filename], 
-		stderr=subprocess.PIPE, stdout=subprocess.PIPE)
- 	output = s.communicate()[1]
+	return compileSass(readFile(filename, 0))
 
- 	if "error" in output:
- 		raise BuildException(output);
- 	
-	return ".".join(filename.split(".")[:-1])+".css"
+def compileSassToFile(filename, outfil):
+	f = open(outfil)
+	f.write(compileSassFile(filename))
+	f.close()
+
 
 def readFile(filename, indent):
 	filename = config.relpath(filename)
@@ -76,8 +75,26 @@ def readFile(filename, indent):
  		raise BuildException("Build Error: could not read %s"%
  			(filename));
 
+def buildCSS(docblock):
+	c = []
+	for i in docblock.body:
+		c.append(i.buildCSS())
+	return c
+
+def fetchCSS(lst):
+	css = dict()
+	for i in lst:
+		if hasattr(i, "name") and not i.name in css.keys():
+			css[i.name] = i.css
+
+		if (hasattr(i, "children")):
+			css = merge(css, fetchCSS(i.children) )
+	return css
+
 def buildBody(docblock):
 	b = docblock.body
+	
+
 	return "\n".join(
 		[b[i].renderToHTML(None, i) for i in range(len(b))]);
 
@@ -161,6 +178,10 @@ def buildFromBlocks(styleblocks):
 
 def buildHTML(includes, styleblocks, docblock):
 
+	css = buildCSS(docblock)
+	heads = fetchCSS(docblock.body)
+	pprint(heads)
+
 	registerGlobals(docblock)
 	fromblocks = ("\n".join(
 				[supportedExt["css"]["superembedder"](a).replace("\n","\n\t\t")
@@ -174,6 +195,7 @@ def buildHTML(includes, styleblocks, docblock):
 	embed_head = inc(includes, "head")
 	include_bottom = bld(includes, "bottom")
 	embed_bottom = inc(includes, "bottom")
+
 	body = buildBody(docblock)
 
 	return (

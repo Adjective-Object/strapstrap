@@ -1,88 +1,130 @@
 
 ::: document Page Header
 : icon ./favicon.png
-: noembed js hard
-: embed css
+: embed css hard
 : js-path jizz
 : css-path cizz
 
-:: Head
+:: Head .lc2
 : fullfold
 : xycentered
+: minheight 384px
 : background ./img.jpg
-: bgfill hilight 0.2
+: bgfill hilight 0.8
 
-	#Project Name
-	##Project subtitle: for the modern age
+	#&#9660; AntiStrap
+	##Markdown for the modern age
 
-	This is a paragraph about the project 
-	man it's so cool I bet you wish your project 
-	was this cool
+	StrapStrap is a simple markup language made for the 
+	rapid prototyping of longscroll information websites. 
+
+	With A simple Markdown-like syntax, StrapStrap allows programmers
+	to produce beautiful-looking and highly customizable sites with
+	little knowledge of design or ingoing effort.
+
 
 :: About
-: columns 4
+: columns 3
 
 	:: column1
-		:: .custom
-			style me here
+	: halign center
 
-		:: .custom
-			style me pls
+		::
+		: image ./code.png
+		: clip circle
+		: width 100%
 
-		:: .custom
-			style me too
+		#Simple Syntax
+
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at augue interdum est volutpat ultricies. Donec laoreet mi hendrerit ipsum porta ultricies. Nunc nulla nisi, rhoncus nec dignissim non, eleifend ac magna.
+
+
+
 
 	:: column2-3
 	: column-width 2
+		```
+		:: Head .lc2
+		: fullfold
+		: xycentered
+		: background ./img.jpg
+		: bgfill hilight 0.8
 
-		:: 
-		: image ./middleimage.jpg
-		: shape circle
+			#StrapStrap
+			##Markdown for the modern age
 
-		this content goes in the middle column
+			StrapStrap is a simple markup language made for the 
+			rapid prototyping of longscroll information websites. 
 
-	:: column4
+			With A simple Markdown-like syntax, StrapStrap allows programmers
+			to produce beautiful-looking and highly customizable sites with
+			little knowledge of design or ingoing effort.
 
-		:: 
-		: image ./rightimage.jpg
-		: shape circle
 
-		this content goes in the right column
+		:: About
+		: columns 3
+
+			:: column1
+				#Simple Syntax
+
+				StrapStrapDown's simple syntax allows users
+				to suck a dick wooo get at me noobs
+
+		```
 
 :: Anotherdiv
+: halign center
 
-	shit son we're so cool man so cool so cool man we're so cool
+	#Hey, Check This Out
+	##Look at all these things we can do
 
-	BUY THESE HEADPHONES: JVC HA-M750
-	Koss Portapro <- runnng?
+	::
+	: image ./hover.jpg
+	: width 1grid
 
-	:: table
+	::
+	: image ./hover.jpg
+	: width 1grid
 
-		| a    | b  | c |
-		| easy | as |   |
-		| 1    | 2  | 3 |
+	::
+	: image ./hover.jpg
+	: width 1grid
 
-:: Footer
+	::
+	: image ./hover.jpg
+	: width 1grid
+
+	::
+	: image ./hover.jpg
+	: width 1grid
+
+	::
+	: image ./hover.jpg
+	: width 1grid
+
+	::
+	: image ./hover.jpg
+	: width 1grid
+
+	::
+	: image ./hover.jpg
+	: width 1grid
+
+
+:: Footer .dc
+: fullwidth
 : footer
 : xycentered
+: height fullblock
+: colorset dark
+: centered
+: minheight 10px
 
 	Made with [MarketDown](http://marketdown.com)
 
-::: sass custom-sass
+	Max @ Pennapps 2014
 
-.custom {
-	content: "some shit";
-}
-
-::: css custom-css
-
-.custom {
-	background-color:red;
-}
 
 ::: include
-something.js
-something.scss
 
-:::include 
-something2.js
+fuckit.scss
