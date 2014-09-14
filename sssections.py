@@ -2,27 +2,43 @@ import sys
 import markdown
 
 class SSSection(object):
-	def renderToHTML():
+	def renderToHTML(self, parent, childno):
 		return "not implemented lol"
 	
 	def validate():
 		return "not implemented lol"
 	
-class TextSection(SSSection):
-	def renderToHTML():
-		return "not implemented lol"
+class BlockSection(SSSection):
+	def __init__(self, header, children):
+		self.header = header
+		self.children = children
+
+	def renderToHTML(self, parent, childno):
+		inner = ""
+		for child in children:
+			inner += child.renderToHTML()
+		return "<section>%s</section>" % inner
+			
 	
 	def validate():
 		return "not implemented lol"
 
 class XYCenteredSection(SSSection):
+	def __init__(self, header, children):
+		self.header = header
+		self.children = children
+
 	def renderToHTML():
 		return "not implemented lol"
 	
 	def validate():
 		return "not implemented lol"
 
-class ColumnSection(SSSection):
+class ColumnSection(BlockSection):
+	def __init__(self, header, children):
+		self.header = header
+		self.children = children
+
 	def renderToHTML():
 		return "not implemented lol"
 	
@@ -30,13 +46,20 @@ class ColumnSection(SSSection):
 		return "not implemented lol"
 
 class ImageSection(SSSection):
+	def __init__(self, header):
+		self.header = header
+
 	def renderToHTML():
-		return "not implemented lol"
+		return "<img src=\"%s\">" % header.get('src')
 	
 	def validate():
 		return "not implemented lol"
 
 class TableSection(SSSection):
+	def __init__(self, header, strapstrapdown):
+		self.header = header
+		self.strapstrapdown = strapstrapdown
+
 	def renderToHTML():
 		return "not implemented lol"
 	
