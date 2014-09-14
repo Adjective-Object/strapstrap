@@ -120,8 +120,8 @@
 : centered
 : minheight 
 
-	Made with [&#9660; AntiStrap](http://marketdown.com)
-
+	Made with [&#9660; AntiStrap](https://github.com/Adjective-Object/strapstrap)
+	
 	Max @ Pennapps 2014
 
 
