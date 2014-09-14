@@ -149,9 +149,11 @@ class MarkdownSection(SSSection):
 
 	def renderToHTML(self, parent, childno, indent=0):
 		#print self.text
-		return markdown.markdown(self.text).replace(
-			">", ">\n").replace("<", "\n<").replace(
-			"\n", "\n"+"\t" * indent)[0:-indent]
+		m = markdown.markdown(self.text)
+		m = m.replace("<pre><code>","<pre>");
+		m = m.replace("</code></pre>","</pre>");
+		return m.replace(
+			">", ">\n").replace("<", "\n<")
 
 	def buildCSS(self):
 		return []

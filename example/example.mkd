@@ -118,9 +118,9 @@
 : height fullblock
 : colorset dark
 : centered
-: minheight 10px
+: minheight 
 
-	Made with [MarketDown](http://marketdown.com)
+	Made with [&#9660; AntiStrap](http://marketdown.com)
 
 	Max @ Pennapps 2014
 

@@ -1,0 +1,203 @@
+@import url(http://fonts.googleapis.com/css?family=Inconsolata|Raleway:200,300,400);
+
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+body,html{
+	width:100%;
+	height:100%;
+}
+
+
+$grid: 64px;
+$innerwidth: 768px;
+$outerwidth: 1024px;
+
+
+body{
+	font-family: Raleway;
+	& > section{
+		max-width:$outerwidth;
+		padding: $grid/2;
+
+		margin-left:auto;
+		margin-right:auto;
+	}
+}
+
+
+@mixin fontsize(){
+	h1, h2, h3, h4, h5{
+		font-weight:300;
+		margin-bottom: $grid/4;
+	}
+
+	h1{
+		font-size: $grid;
+	}
+	h2{
+		font-size: $grid/2;
+	}
+	h3{
+		font-size: $grid/4;
+
+	}
+	*{
+		font-size: $grid/4;
+	}
+	code, pre{
+		font-size: $grid/4;	
+	}
+}
+
+code{
+
+	font-family: Inconsolata;
+}
+
+
+@include fontsize;
+
+.lc{
+	color: #AAAAAA;
+	background-color: #EEEEEE;
+}
+
+
+.lc2{
+	color: #EEEEEE;
+	background-color: #AAAAAA;
+}
+
+.dc{
+	color: #EEEEEE;
+	background-color: #222222;
+}
+
+$hilight: #DA727E;
+
+a{
+	color: $hilight;
+	text-decoration:none;
+}
+
+.dc a:hover{
+	color: #EEEEEE
+}
+
+#Head {
+	position:relative;
+    background-size: cover;
+	-moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+
+    background: rgba($hilight, 0.5) url(./img.jpg);
+    background-position: center;
+
+    height:  100%;
+    min-height: 768px/2;
+    width: 100% !important; 
+    max-width:100%;
+
+    overflow:hidden;
+
+}
+
+#Head .xycenteredinner{
+
+	border: 1px solid #EEEEEE;
+
+	padding:$grid;
+
+	position:relative;
+	z-index:2;
+
+	margin-top:-200px;
+
+}
+
+.xycenteredinner{
+	position:absolute;
+	width: $innerwidth;
+	left:50%;
+	top:50%;
+	margin-left: -$innerwidth/2;
+}
+
+
+
+#Head  {
+
+
+	&:before {
+	  position: absolute;
+	  top: 0; right: 0; bottom: 0; left: 0;
+	  background-color: inherit;
+	  content: ' ';
+	  z-index:1;
+	}
+}
+
+
+
+
+
+#About{
+	margin-left:auto;
+	margin-right:auto;
+	font-size:0;
+	width: $outerwidth;
+		
+	//because colmumns:
+	&>section{
+	vertical-align: top;
+		@include fontsize;
+
+		display:inline-block !important;
+		padding:$grid/2;
+	}
+}
+
+#column1{
+	position:relative;
+	width:($outerwidth - $grid) * 1/3 - 1px; 
+
+	h1{
+		text-align:center;
+	}
+
+	img{
+		width: 100%;
+	}
+}
+
+#column2-3{
+	width:($outerwidth - $grid)*2/3 - 1px
+}
+
+#Anotherdiv{
+	img {
+		width: 3 * $grid;
+	    margin: $grid/4;
+	}
+}
+
+#Footer{
+	position:relative;
+    width: 100% !important; 
+    min-width: 100% !important;
+	height: $grid * 2;
+
+    text-align:center;
+    .xycenteredinner{
+		margin-top: -1em;
+    }
+}
