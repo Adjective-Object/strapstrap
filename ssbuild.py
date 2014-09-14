@@ -77,7 +77,7 @@ def readFile(filename, indent):
  			(filename));
 
 def buildBody(docblock):
-	return ""
+	return docblock.renderToHTML();
 
 def inc(includes, pos):
 	return "\t"+"\n\t".join(
