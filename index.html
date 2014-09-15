@@ -85,7 +85,8 @@ a {
   padding: 64px;
   position: relative;
   z-index: 2;
-  margin-top: -200px; }
+  margin-top: -200px;
+  border-radius: 2px; }
 
 .xycenteredinner {
   position: absolute;
@@ -140,7 +141,15 @@ a {
 
 #Anotherdiv img {
   width: 192px;
-  margin: 16px; }
+  margin: 16px;
+  position: relative;
+  top: 0;
+  border-radius: 2px;
+  opacity: 0.8; }
+  #Anotherdiv img:hover {
+    top: -10px;
+    opacity: 1;
+    tranform: translate2D(0, -10px); }
 
 #Footer {
   position: relative;
@@ -169,15 +178,20 @@ Markdown for the modern age
 
 
 <p>
-StrapStrap is a simple markup language made for the 
+&#9661; AntiStrap is a simple markup language made for the 
 rapid prototyping of longscroll information websites. 
 </p>
 
 
 <p>
-With A simple Markdown-like syntax, StrapStrap allows programmers
-to produce beautiful-looking and highly customizable sites with
+With A simple Markdown-like syntax, &#9661; AntiStrap allows programmers
+to produce beautiful-looking customizable sites with
 little knowledge of design or ingoing effort.
+</p>
+
+
+<p>
+OH look its compiled
 </p>
 
 </section></section>
@@ -191,26 +205,34 @@ Simple Syntax
 
 
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at augue interdum est volutpat ultricies. Donec laoreet mi hendrerit ipsum porta ultricies. Nunc nulla nisi, rhoncus nec dignissim non, eleifend ac magna.
+&#9661; AntiStrap's simple syntax makes it easy and intuitive to rapidly prototype modern marketing and hackathon websites.
+<br />
+
+The reduced instruction set makes &#9661; AntiStrap easy to learn, and the builtin sass/scss compiler gives you just as much power as any other contemporary styling system when necessary.
 </p>
 
 	</section>
 	<section id="column2-3">
 
 <pre>
+::: document Page Header
+: icon ./example/favicon.png
+: embed css hard
+
 :: Head .lc2
 : fullfold
 : xycentered
+: minheight 384px
 : background ./example/img.jpg
 : bgfill hilight 0.8
 
-#StrapStrap
+#&amp;#9660; AntiStrap
 ##Markdown for the modern age
 
-StrapStrap is a simple markup language made for the 
+&amp;#9661; AntiStrap is a simple markup language made for the 
 rapid prototyping of longscroll information websites.
 
-With A simple Markdown-like syntax, StrapStrap allows programmers
+With A simple Markdown-like syntax, &amp;#9661; AntiStrap allows programmers
 to produce beautiful-looking and highly customizable sites with
 little knowledge of design or ingoing effort.
 
@@ -219,10 +241,7 @@ little knowledge of design or ingoing effort.
 : columns 3
 
 :: column1
-    #Simple Syntax
-
-    StrapStrapDown's simple syntax allows users
-    to suck a dick wooo get at me noobs
+: halign center
 
 </pre>
 
@@ -247,7 +266,7 @@ Look at all these things we can do
 
 <p>
 Made with 
-<a href="https://github.com/Adjective-Object/strapstrap">
+<a href="https://github.com/Adjective-Object/&amp;#9660; AntiStrap">
 &#9660; AntiStrap
 </a>
 

@@ -2,8 +2,6 @@
 ::: document Page Header
 : icon ./example/favicon.png
 : embed css hard
-: js-path jizz
-: css-path cizz
 
 :: Head .lc2
 : fullfold
@@ -15,13 +13,15 @@
 	#&#9660; AntiStrap
 	##Markdown for the modern age
 
-	StrapStrap is a simple markup language made for the 
+	&#9661; AntiStrap is a simple markup language made for the 
 	rapid prototyping of longscroll information websites. 
 
-	With A simple Markdown-like syntax, StrapStrap allows programmers
-	to produce beautiful-looking and highly customizable sites with
+	With A simple Markdown-like syntax, &#9661; AntiStrap allows programmers
+	to produce beautiful-looking customizable sites with
 	little knowledge of design or ingoing effort.
 
+	OH look its compiled
+	
 
 :: About
 : columns 3
@@ -36,27 +36,30 @@
 
 		#Simple Syntax
 
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at augue interdum est volutpat ultricies. Donec laoreet mi hendrerit ipsum porta ultricies. Nunc nulla nisi, rhoncus nec dignissim non, eleifend ac magna.
-
-
-
+		&#9661; AntiStrap's simple syntax makes it easy and intuitive to rapidly prototype modern marketing and hackathon websites.  
+		The reduced instruction set makes &#9661; AntiStrap easy to learn, and the builtin sass/scss compiler gives you just as much power as any other contemporary styling system when necessary.
 
 	:: column2-3
 	: column-width 2
 		```
+		::: document Page Header
+		: icon ./example/favicon.png
+		: embed css hard
+
 		:: Head .lc2
 		: fullfold
 		: xycentered
+		: minheight 384px
 		: background ./example/img.jpg
 		: bgfill hilight 0.8
 
-			#StrapStrap
+			#&#9660; AntiStrap
 			##Markdown for the modern age
 
-			StrapStrap is a simple markup language made for the 
+			&#9661; AntiStrap is a simple markup language made for the 
 			rapid prototyping of longscroll information websites. 
 
-			With A simple Markdown-like syntax, StrapStrap allows programmers
+			With A simple Markdown-like syntax, &#9661; AntiStrap allows programmers
 			to produce beautiful-looking and highly customizable sites with
 			little knowledge of design or ingoing effort.
 
@@ -65,10 +68,8 @@
 		: columns 3
 
 			:: column1
-				#Simple Syntax
+			: halign center
 
-				StrapStrapDown's simple syntax allows users
-				to suck a dick wooo get at me noobs
 
 		```
 
@@ -120,7 +121,7 @@
 : centered
 : minheight 
 
-	Made with [&#9660; AntiStrap](https://github.com/Adjective-Object/strapstrap)
+	Made with [&#9660; AntiStrap](https://github.com/Adjective-Object/&#9660; AntiStrap)
 
 	Max @ Pennapps 2014
 
