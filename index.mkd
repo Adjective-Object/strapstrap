@@ -19,8 +19,6 @@
 	With A simple Markdown-like syntax, &#9661; AntiStrap allows programmers
 	to produce beautiful-looking customizable sites with
 	little knowledge of design or ingoing effort.
-
-	OH look its compiled
 	
 
 :: About
