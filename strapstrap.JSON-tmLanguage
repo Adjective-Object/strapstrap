@@ -1,0 +1,211 @@
+{
+	"name": "▼StrapStrap",
+	"scopeName": "text.strapstrap",
+	"fileTypes": ["mkd"],
+	"uuid": "07629b98-022c-4204-a227-aa65ae352f6c",
+
+	// keyword, comment, invalid, entity.name.function, storage.class.type
+
+	"patterns": [
+
+		{	//Document block
+			"name": "docblock.blockhead.strapstrap",//entity.cssblock.strapstrap",
+			"begin": "^(?=(:::) (document))",
+			"end": "(^(?=:::)|<<EOF>>)",
+			"patterns": [
+				//header hilights
+				{"include": "#sheader_doc"},
+				{"include": "#document_syntax"}
+			]
+		},
+
+		{	//CSS block
+			"name": "cssblock.blockhead.strapstrap",//entity.cssblock.strapstrap",
+			"begin": "^(?=(:::) (css))",
+			"end": "(^(?=:::)|<<EOF>>)",
+			"patterns": [
+				//header hilights
+				{"include": "#sheader_sci"},
+				{"include": "source.css"}
+			]
+		},
+
+		{	//SCSS blocks 
+			"name": "sassblock.blockhead.strapstrap",//entity.cssblock.strapstrap",
+			"begin": "^(?=(:::) (sass))",
+			"end": "(^(?=:::)|<<EOF>>)",
+			"patterns": [
+				{"include": "#sheader_sci"},
+				{"include": "source.sass"}
+			]
+		},
+
+		{	//include blocks 
+			"name": "includeblock.blockhead.strapstrap",//entity.cssblock.strapstrap",
+			"begin": "^(?=(:::) (include))",
+			"end": "(^(?=:::)|<<EOF>>)",
+			"patterns":[
+				//include specific keywords
+				{"include": "#sheader_sci"}
+			]
+		},
+
+		{
+			"match": "^[^:]*(?=$)",
+			"include": "text.markdown"
+		}
+	],
+
+	"repository": {
+		//These sheaders are only for includes, sass, css
+		"sheader_sci": {
+			"name": "sheader_inc",
+			"begin": "^(?=:::)",
+			"end": "^\\s*[^:]",
+			"patterns": [
+				{
+					"match": ":::\\s*(include|sass|css)",
+					"name": "keyword"
+				},
+
+				{
+					"match": "(:)\\s+(embed\\s+(true|false|default|$))",
+					"captures": {
+						"1": {"name": "keyword"},
+						"2": {"name": "support.type"}
+					},
+					"name": "incheader.strapstrap"
+				},
+
+				{"include": "#header_contents"}
+			]
+		},
+
+		"sheader_doc": {
+			"name": "sheader_inc",
+			"begin": "^(?=:::)",
+			"end": "^\\s*[^:]",
+			"patterns": [
+				{
+					"match": ":::\\s*(document)",
+					"name": "keyword"
+				},
+
+				{
+					"match": "(:)\\s+(embed|noembed)((\\s+(css|js)(\\shard)?){0,2})\\s*",
+					"captures": {
+						"1": {"name": "keyword"},
+						"2": {"name": "support.type"},
+						"3": {"name": "entity.name.function"}},
+					"name": "embednoembed.sheaderdoc.strapstrap"
+				},
+
+				{
+					"match": "^(:)\\s+(icon|title|parser)(\\s|$)",
+					"captures": {
+						"1": {"name": "keyword"},
+						"2": {"name": "support.type"}},
+					"name": "nokey.sheaderdoc.strapstrap"
+				},
+
+				{"include": "#header_contents"}
+			]
+		},
+
+		"header_contents": {
+			"patterns": [
+				{
+					"name": "keyword.header.attribute.strapstrap",
+					"match": ":{1,3}(?=(\\s|$))"
+				},
+				{
+					"name": "keyword.header.title.strapstrap",
+					"match": "[^s]*(?<=::\\s)"
+				}
+			]
+		},
+
+		"document_syntax": {
+			"patterns": [
+				{
+					"name": "document.strapstrap",
+					"begin": "^(?=:)",
+					"end": "^(?=:::)",
+					"patterns":[
+						{	// embedded literals (mardown syntax)
+							// overrides the default hilighting
+							"name": "string.triple.strapstrap",
+							"begin": "```",
+							"end": "```|<<EOF>>"
+						},
+						{
+							"name": "htmlescape.strapstrap",
+							"match": "(&#?)(x?)(.{1,10})(;)",
+							"captures": {
+								"1": {"name": "keyword"},
+								"2": {"name": "entity.name.function"},
+								"3": {"name": "support.type"},
+								"4": {"name": "keyword"}
+							}
+						},
+						{
+							"name": "sectionheader.document.strapstrap",
+							"begin":"^(?=\\s*::)",
+							"end":"^(?=\\s*[^:\\s])",
+							"patterns":[{"include":"#secheader"}]
+						}
+					]
+				}
+			]
+		},
+
+		"secheader": {
+			"patterns": [
+				{
+					"name": "image.secheader.strapstrap",
+					"match": "^\\s*(::)\\s+(image|table)\\s+([^\\s]*)",
+					"captures": {
+						"1": {"name": "keyword"},
+						"2": {"name": "support.type"}}
+				},
+				{
+					"name": "linebgin.named.secheader.strapstrap",
+					"match": "^\\s*(::)\\s+([^\\.]*)((\\s\\.[^\\s]*)+)",
+					"captures": {
+						"1": {"name": "keyword"},
+						"3": {"name": "entity.name.function"}}
+				},
+				{ 	// TODO capture specific properties instead
+					// of this dumb catchall, but we need
+					// a concrete 
+					"name": "linebeginnamed.sectionheader",
+					"match": "^\\s*(:)\\s+([^\\s]*)",
+					"captures": {
+						"1": {"name": "keyword"},
+						"2": {"name": "support.type"}}
+				},
+				{
+					"name": "linebegin.sectionheader",
+					"match": "^\\s*((:){1,2}).*",
+					"captures": {
+						"1": {"name": "keyword"}}
+				}
+			]
+		},
+
+		"secbody": {
+			"patterns": [
+				{
+					"name": "sectionbody.strapstrap",
+					"match": "(&)(#?).*(;)",
+					"captures": {
+						"1": {"name": "storage.class.type"},
+						"2": {"name": "keyword"},
+						"3": {"name": "storage.class.type"}
+					}
+				}
+			]
+		}
+	}
+
+}
